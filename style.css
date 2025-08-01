@@ -23,12 +23,28 @@ body {
     padding: 10px;
     margin: 0;
     overflow-x: hidden;
+    display: flex; /* Use flex to allow footer to stick at the bottom */
+    flex-direction: column; /* Stack children vertically */
 }
 
 .main-container {
     max-width: 600px;
     margin: 0 auto;
     width: 100%;
+    flex: 1; /* Allow content area to expand */
+}
+
+footer.footer {
+    background-color: transparent; /* Remove background */
+    padding: 0; /* Remove padding */
+    text-align: center;
+    color: white; /* Text color */
+    font-size: 0.9rem;
+    position: relative; /* Ensure it does not appear as a box */
+}
+footer.footer a {
+    color: #f59e0b; /* Link color */
+    text-decoration: none; /* Remove underline */
 }
 
 .game-card {

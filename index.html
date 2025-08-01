@@ -1,375 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hand Cricket Game</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        
-        :root {
-            --primary-purple: #6366f1;
-            --purple-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --cyan-gradient: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
-            --orange-gradient: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-            --success-green: #10b981;
-            --danger-red: #ef4444;
-        }
+    <link href="style.css" rel="stylesheet">
 
-        body {
-            background: var(--purple-gradient);
-            min-height: 100vh;
-            font-family: 'Inter', sans-serif;
-            padding: 20px 0;
-        }
-
-        .main-container {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .game-card {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 24px;
-            padding: 0;
-            border: none;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-            overflow: hidden;
-        }
-
-        .game-header {
-            background: transparent;
-            text-align: center;
-            padding: 40px 30px 20px;
-        }
-
-        .game-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #1f2937;
-            margin-bottom: 8px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .game-subtitle {
-            color: #6b7280;
-            font-size: 1.1rem;
-            font-weight: 400;
-        }
-
-        .score-section {
-            background: white;
-            border-radius: 20px;
-            padding: 30px;
-            margin: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-        }
-
-        .player-score {
-            text-align: center;
-            flex: 1;
-        }
-
-        .player-name {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            font-size: 1rem;
-            font-weight: 600;
-            color: #374151;
-            margin-bottom: 8px;
-        }
-
-        .score-number {
-            font-size: 3rem;
-            font-weight: 700;
-            margin-bottom: 12px;
-        }
-
-        .player-score.you .score-number {
-            color: var(--primary-purple);
-        }
-
-        .player-score.ai .score-number {
-            color: var(--primary-purple);
-        }
-
-        .vs-divider {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #9ca3af;
-            margin: 0 20px;
-        }
-
-        .status-badge {
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .batting-badge {
-            background: var(--cyan-gradient);
-            color: white;
-        }
-
-        .bowling-badge {
-            background: var(--orange-gradient);
-            color: white;
-        }
-
-        .ready-badge {
-            background: #e5e7eb;
-            color: #6b7280;
-        }
-
-        .game-section {
-            padding: 20px 30px 30px;
-        }
-
-        .section-title {
-            font-size: 1.4rem;
-            font-weight: 600;
-            color: #111827;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .toss-display {
-            background: #f8fafc;
-            border-radius: 16px;
-            padding: 25px;
-            text-align: center;
-            margin-bottom: 25px;
-        }
-
-        .toss-numbers {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin: 20px 0;
-        }
-
-        .toss-number {
-            background: var(--primary-purple);
-            color: white;
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            font-weight: 700;
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
-        }
-
-        .toss-label {
-            font-size: 0.9rem;
-            color: #6b7280;
-            margin-bottom: 8px;
-        }
-
-        .choice-buttons {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .btn-choice {
-            flex: 1;
-            padding: 12px 20px;
-            border-radius: 12px;
-            border: 2px solid #e5e7eb;
-            background: white;
-            color: #374151;
-            font-weight: 600;
-            transition: all 0.2s ease;
-        }
-
-        .btn-choice:hover {
-            border-color: var(--primary-purple);
-            color: var(--primary-purple);
-            background: #f8fafc;
-        }
-
-        .btn-choice.selected {
-            background: var(--primary-purple);
-            border-color: var(--primary-purple);
-            color: white;
-        }
-
-        .number-input {
-            width: 100%;
-            padding: 14px 20px;
-            border: 2px solid #e5e7eb;
-            border-radius: 12px;
-            font-size: 1.1rem;
-            text-align: center;
-            transition: border-color 0.2s ease;
-        }
-
-        .number-input:focus {
-            outline: none;
-            border-color: var(--primary-purple);
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
-        }
-
-        .btn-primary-custom {
-            background: var(--cyan-gradient);
-            border: none;
-            color: white;
-            padding: 14px 30px;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 1rem;
-            transition: all 0.2s ease;
-            width: 100%;
-        }
-
-        .btn-primary-custom:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);
-        }
-
-        .number-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 12px;
-            margin-bottom: 25px;
-        }
-
-        .number-btn {
-            aspect-ratio: 1;
-            border: none;
-            border-radius: 16px;
-            background: var(--primary-purple);
-            color: white;
-            font-size: 1.3rem;
-            font-weight: 700;
-            transition: all 0.2s ease;
-            cursor: pointer;
-        }
-
-        .number-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
-        }
-
-        .number-btn.selected {
-            background: var(--success-green);
-            transform: scale(1.05);
-        }
-
-        .info-card {
-            background: #fef3c7;
-            border: 1px solid #fbbf24;
-            border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .info-card.success {
-            background: #d1fae5;
-            border-color: var(--success-green);
-            color: #065f46;
-        }
-
-        .info-card.danger {
-            background: #fee2e2;
-            border-color: var(--danger-red);
-            color: #991b1b;
-        }
-
-        .info-card .icon {
-            font-size: 1.2rem;
-            margin-right: 8px;
-        }
-
-        .result-section {
-            text-align: center;
-            padding: 40px 30px;
-        }
-
-        .winner-badge {
-            background: var(--success-green);
-            color: white;
-            padding: 12px 24px;
-            border-radius: 25px;
-            font-size: 1.2rem;
-            font-weight: 700;
-            display: inline-block;
-            margin-bottom: 20px;
-        }
-
-        .final-scores {
-            font-size: 1.1rem;
-            color: #6b7280;
-            margin-bottom: 30px;
-        }
-
-        .btn-play-again {
-            background: var(--cyan-gradient);
-            border: none;
-            color: white;
-            padding: 16px 40px;
-            border-radius: 25px;
-            font-weight: 600;
-            font-size: 1.1rem;
-            transition: all 0.2s ease;
-        }
-
-        .btn-play-again:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(6, 182, 212, 0.4);
-        }
-
-        .hidden {
-            display: none !important;
-        }
-
-        .fade-in {
-            animation: fadeIn 0.4s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .pulse {
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.02);
-            }
-        }
-    </style>
 </head>
+
 <body>
     <div class="main-container">
         <!-- Header Card -->
+
         <div class="game-card">
             <div class="game-header">
                 <h1 class="game-title">Hand Cricket</h1>
@@ -388,9 +33,9 @@
                     <div class="score-number" id="player1Score">0</div>
                     <div id="player1Status" class="status-badge ready-badge">Ready</div>
                 </div>
-                
+
                 <div class="vs-divider">VS</div>
-                
+
                 <div class="player-score ai">
                     <div class="player-name">
                         <i class="fas fa-robot"></i>
@@ -418,35 +63,44 @@
         <div id="tossCard" class="game-card hidden">
             <div class="game-section">
                 <div class="section-title">Choose Odd or Even for the toss:</div>
-                
+
+                <div id="tossError" class="info-card error hidden">
+                    <i class="fas fa-exclamation-triangle icon"></i>
+                    <span id="tossErrorText">Please select odd or even and enter a valid number!</span>
+                </div>
+
                 <div class="choice-buttons">
-                    <button class="btn-choice" onclick="selectOddEven('odd')">
+                    <button class="btn-choice" onclick="selectOddEven('odd', event)">
                         <i class="fas fa-dice-one me-2"></i>ODD
                     </button>
-                    <button class="btn-choice" onclick="selectOddEven('even')">
+                    <button class="btn-choice" onclick="selectOddEven('even', event)">
                         <i class="fas fa-dice-two me-2"></i>EVEN
                     </button>
                 </div>
 
-                <input type="number" id="tossNumber" class="number-input" min="1" max="10" placeholder="Enter your number (1-10)">
-                
-                <button class="btn-primary-custom mt-3" onclick="doToss()">
-                    Do Toss
+                <input type="number" id="tossNumber" class="number-input" min="1" max="10" step="1"
+                    placeholder="Enter your number (1-10)">
+
+                <button id="tossBtn" class="btn-primary-custom mt-3" onclick="doToss()">
+                    <span id="tossBtnText">Do Toss</span>
                 </button>
 
-                <div id="tossResult" class="toss-display hidden">
-                    <!-- Toss result will be displayed here -->
-                </div>
+                <!-- Toss result will be shown here -->
+                <div id="tossResult" class="toss-display hidden"></div>
+
+                <!-- AI decision (if AI wins toss) -->
+                <div id="aiDecisionMsg" class="ai-decision hidden"></div>
             </div>
         </div>
+
 
         <!-- Bat/Bowl Choice Card -->
         <div id="choiceCard" class="game-card hidden">
             <div class="game-section">
-                <div class="section-title">You won the toss! Choose your action:</div>
+                <div class="section-title" id="choiceTitle">You won the toss! Choose your action:</div>
                 <div class="choice-buttons">
                     <button class="btn-choice" onclick="chooseBatBowl('bat')">
-                        <i class="fas fa-baseball-bat me-2"></i>BAT FIRST
+                        <span class="me-2" style="font-size: 18px;">🏏</span>BAT FIRST
                     </button>
                     <button class="btn-choice" onclick="chooseBatBowl('bowl')">
                         <i class="fas fa-baseball-ball me-2"></i>BOWL FIRST
@@ -469,25 +123,26 @@
                 </div>
 
                 <div class="section-title">Choose your number:</div>
-                
+
                 <div class="number-grid">
-                    <button class="number-btn" onclick="selectNumber(1)">1</button>
-                    <button class="number-btn" onclick="selectNumber(2)">2</button>
-                    <button class="number-btn" onclick="selectNumber(3)">3</button>
-                    <button class="number-btn" onclick="selectNumber(4)">4</button>
-                    <button class="number-btn" onclick="selectNumber(5)">5</button>
-                    <button class="number-btn" onclick="selectNumber(6)">6</button>
-                    <button class="number-btn" onclick="selectNumber(7)">7</button>
-                    <button class="number-btn" onclick="selectNumber(8)">8</button>
-                    <button class="number-btn" onclick="selectNumber(9)">9</button>
-                    <button class="number-btn" onclick="selectNumber(10)">10</button>
+                    <button class="number-btn" onclick="selectNumber(1, event)">1</button>
+                    <button class="number-btn" onclick="selectNumber(2, event)">2</button>
+                    <button class="number-btn" onclick="selectNumber(3, event)">3</button>
+                    <button class="number-btn" onclick="selectNumber(4, event)">4</button>
+                    <button class="number-btn" onclick="selectNumber(5, event)">5</button>
+                    <button class="number-btn" onclick="selectNumber(6, event)">6</button>
+                    <button class="number-btn" onclick="selectNumber(7, event)">7</button>
+                    <button class="number-btn" onclick="selectNumber(8, event)">8</button>
+                    <button class="number-btn" onclick="selectNumber(9, event)">9</button>
+                    <button class="number-btn" onclick="selectNumber(10, event)">10</button>
                 </div>
 
                 <button id="playTurnBtn" class="btn-primary-custom" onclick="playTurn()" disabled>
-                    Play Turn
+                    <span id="playBtnText">Play Turn</span>
                 </button>
 
-                <button id="declareBtn" class="btn-primary-custom hidden" onclick="declareInnings()" style="background: var(--orange-gradient); margin-top: 10px;">
+                <button id="declareBtn" class="btn-primary-custom hidden" onclick="declareInnings()"
+                    style="background: var(--orange-gradient); margin-top: 10px;">
                     <i class="fas fa-flag me-2"></i>DECLARE INNINGS
                 </button>
 
@@ -504,7 +159,7 @@
                     <i class="fas fa-trophy me-2"></i>
                     <span id="winnerText">It's a Tie!</span>
                 </div>
-                
+
                 <div class="final-scores">
                     <strong>Final Scores:</strong><br>
                     <span id="finalScoreText">You: 0 | AI: 0</span>
@@ -517,390 +172,16 @@
         </div>
     </div>
 
-    <script>
-        // Game State
-        let gameState = {
-            phase: 'welcome',
-            player1: { score: 0, role: '', isBatting: false },
-            player2: { score: 0, role: '', isBatting: false },
-            toss: { choice: '', playerNum: null, systemNum: null, winner: null },
-            currentInnings: 1,
-            selectedNumber: null,
-            target: 0,
-            gameOver: false
-        };
+    <footer class="footer">
+        <div class="container text-center">
+            <p class="text-muted">
+                &copy; 2025 Hand Cricket Game. All rights reserved.
+            </p>
+        </div>
 
-        // Utility Functions
-        function hideAllCards() {
-            const cards = ['welcomeCard', 'tossCard', 'choiceCard', 'inningsCard', 'resultCard'];
-            cards.forEach(card => {
-                document.getElementById(card).classList.add('hidden');
-            });
-        }
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script src="game.js" defer></script>
 
-        function showCard(cardId) {
-            hideAllCards();
-            const card = document.getElementById(cardId);
-            card.classList.remove('hidden');
-            card.classList.add('fade-in');
-            
-            // Show score card for gameplay phases
-            if (['tossCard', 'choiceCard', 'inningsCard'].includes(cardId)) {
-                document.getElementById('scoreCard').classList.remove('hidden');
-            }
-        }
-
-        function updateScoreDisplay() {
-            document.getElementById('player1Score').textContent = gameState.player1.score;
-            document.getElementById('player2Score').textContent = gameState.player2.score;
-            
-            // Update status badges
-            const p1Status = document.getElementById('player1Status');
-            const p2Status = document.getElementById('player2Status');
-            
-            if (gameState.phase === 'innings') {
-                if (gameState.player1.isBatting) {
-                    p1Status.textContent = 'BATTING';
-                    p1Status.className = 'status-badge batting-badge';
-                    p2Status.textContent = 'BOWLING';
-                    p2Status.className = 'status-badge bowling-badge';
-                } else {
-                    p1Status.textContent = 'BOWLING';
-                    p1Status.className = 'status-badge bowling-badge';
-                    p2Status.textContent = 'BATTING';
-                    p2Status.className = 'status-badge batting-badge';
-                }
-            } else {
-                p1Status.textContent = 'Ready';
-                p1Status.className = 'status-badge ready-badge';
-                p2Status.textContent = 'Ready';
-                p2Status.className = 'status-badge ready-badge';
-            }
-        }
-
-        // Game Functions
-        function startGame() {
-            gameState.phase = 'toss';
-            showCard('tossCard');
-            updateScoreDisplay();
-        }
-
-        function selectOddEven(choice) {
-            gameState.toss.choice = choice;
-            
-            // Update button states
-            document.querySelectorAll('.btn-choice').forEach(btn => {
-                btn.classList.remove('selected');
-            });
-            event.target.classList.add('selected');
-        }
-
-        function doToss() {
-            const playerNum = parseInt(document.getElementById('tossNumber').value);
-            
-            if (!gameState.toss.choice) {
-                alert('Please select Odd or Even first!');
-                return;
-            }
-            
-            if (!playerNum || playerNum < 1 || playerNum > 10) {
-                alert('Please enter a valid number between 1 and 10!');
-                return;
-            }
-
-            gameState.toss.playerNum = playerNum;
-            gameState.toss.systemNum = Math.floor(Math.random() * 10) + 1;
-            
-            const total = gameState.toss.playerNum + gameState.toss.systemNum;
-            const isOdd = total % 2 === 1;
-            const tossResult = isOdd ? 'odd' : 'even';
-            
-            gameState.toss.winner = (gameState.toss.choice === tossResult) ? 'player1' : 'player2';
-            
-            // Show toss result
-            const resultDiv = document.getElementById('tossResult');
-            resultDiv.innerHTML = `
-                <div class="toss-numbers">
-                    <div>
-                        <div class="toss-label">You</div>
-                        <div class="toss-number">${gameState.toss.playerNum}</div>
-                    </div>
-                    <div>
-                        <div class="toss-label">AI</div>
-                        <div class="toss-number">${gameState.toss.systemNum}</div>
-                    </div>
-                </div>
-                <div style="margin-top: 15px;">
-                    <strong>Total: ${total} (${tossResult.toUpperCase()})</strong><br>
-                    <span style="color: ${gameState.toss.winner === 'player1' ? '#10b981' : '#ef4444'}; font-weight: 600;">
-                        ${gameState.toss.winner === 'player1' ? 'You won the toss!' : 'AI won the toss!'}
-                    </span>
-                </div>
-            `;
-            resultDiv.classList.remove('hidden');
-
-            setTimeout(() => {
-                if (gameState.toss.winner === 'player1') {
-                    showCard('choiceCard');
-                } else {
-                    // AI won toss, AI decides
-                    const systemChoice = Math.random() < 0.5 ? 'bat' : 'bowl';
-                    setTimeout(() => {
-                        // Show what AI chose
-                        const choiceInfo = document.createElement('div');
-                        choiceInfo.className = 'info-card';
-                        choiceInfo.innerHTML = `<i class="fas fa-robot icon"></i>AI chose to <strong>${systemChoice.toUpperCase()}</strong> first!`;
-                        document.getElementById('tossCard').querySelector('.game-section').appendChild(choiceInfo);
-                        
-                        setTimeout(() => {
-                            chooseBatBowl(systemChoice === 'bat' ? 'bowl' : 'bat', true);
-                        }, 2000);
-                    }, 1000);
-                }
-            }, 3000);
-        }
-
-        function chooseBatBowl(choice, isSystemChoice = false) {
-            gameState.player1.role = choice;
-            gameState.player2.role = choice === 'bat' ? 'bowl' : 'bat';
-            gameState.player1.isBatting = choice === 'bat';
-            gameState.player2.isBatting = choice === 'bowl';
-            gameState.phase = 'innings';
-
-            updateInningsDisplay();
-            showCard('inningsCard');
-            updateScoreDisplay();
-        }
-
-        function updateInningsDisplay() {
-            const inningsText = document.getElementById('inningsText');
-            const targetInfo = document.getElementById('targetInfo');
-            const declareBtn = document.getElementById('declareBtn');
-            
-            if (gameState.currentInnings === 1) {
-                inningsText.innerHTML = `<i class="fas fa-play-circle icon"></i>First Innings: ${gameState.player1.isBatting ? 'You are batting first!' : 'You are bowling first! (AI is batting)'}`;
-                targetInfo.classList.add('hidden');
-                
-                // Show declare button only if player is batting in first innings and has scored some runs
-                if (gameState.player1.isBatting && gameState.player1.score > 0) {
-                    declareBtn.classList.remove('hidden');
-                } else {
-                    declareBtn.classList.add('hidden');
-                }
-            } else {
-                const battingPlayer = gameState.player1.isBatting ? 'player1' : 'player2';
-                const currentScore = gameState.player1.isBatting ? gameState.player1.score : gameState.player2.score;
-                const runsNeeded = gameState.target - currentScore + 1;
-                
-                if (runsNeeded <= 0) {
-                    endGame();
-                    return;
-                }
-                
-                inningsText.innerHTML = `<i class="fas fa-target icon"></i>Second Innings: ${gameState.player1.isBatting ? `You need ${runsNeeded} more runs to win!` : `You are bowling! AI needs ${runsNeeded} more runs to win!`}`;
-                targetInfo.classList.remove('hidden');
-                document.getElementById('targetText').textContent = `Target to chase: ${gameState.target + 1}`;
-                
-                // Hide declare button in second innings (chasing team can't declare)
-                declareBtn.classList.add('hidden');
-            }
-        }
-
-        function selectNumber(num) {
-            gameState.selectedNumber = num;
-            
-            // Update button states
-            document.querySelectorAll('.number-btn').forEach(btn => {
-                btn.classList.remove('selected');
-            });
-            event.target.classList.add('selected');
-            
-            document.getElementById('playTurnBtn').disabled = false;
-        }
-
-        function playTurn() {
-            if (!gameState.selectedNumber) {
-                alert('Please select a number first!');
-                return;
-            }
-
-            const playerChoice = gameState.selectedNumber;
-            const systemChoice = Math.floor(Math.random() * 10) + 1;
-            const resultDiv = document.getElementById('turnResult');
-            
-            if (playerChoice === systemChoice) {
-                // OUT!
-                resultDiv.innerHTML = `
-                    <div class="toss-numbers">
-                        <div>
-                            <div class="toss-label">You</div>
-                            <div class="toss-number">${playerChoice}</div>
-                        </div>
-                        <div>
-                            <div class="toss-label">AI</div>
-                            <div class="toss-number">${systemChoice}</div>
-                        </div>
-                    </div>
-                    <div class="info-card danger" style="margin-top: 20px;">
-                        <i class="fas fa-exclamation-triangle icon"></i>
-                        <strong>OUT! Numbers matched - ${gameState.player1.isBatting ? 'You are' : 'AI is'} out!</strong>
-                    </div>
-                `;
-                resultDiv.classList.remove('hidden');
-                
-                setTimeout(() => {
-                    switchInnings();
-                }, 3000);
-            } else {
-                // Safe - add runs only for the batting player
-                let runsScored = 0;
-                if (gameState.player1.isBatting) {
-                    // Player is batting, so player's number becomes runs
-                    runsScored = playerChoice;
-                    gameState.player1.score += playerChoice;
-                } else {
-                    // AI is batting, so AI's number becomes runs
-                    runsScored = systemChoice;
-                    gameState.player2.score += systemChoice;
-                }
-                
-                resultDiv.innerHTML = `
-                    <div class="toss-numbers">
-                        <div>
-                            <div class="toss-label">You</div>
-                            <div class="toss-number">${playerChoice}</div>
-                        </div>
-                        <div>
-                            <div class="toss-label">AI</div>
-                            <div class="toss-number">${systemChoice}</div>
-                        </div>
-                    </div>
-                    <div class="info-card success" style="margin-top: 20px;">
-                        <i class="fas fa-check-circle icon"></i>
-                        <strong>Safe! ${gameState.player1.isBatting ? 'You' : 'AI'} scored ${runsScored} runs</strong>
-                    </div>
-                `;
-                resultDiv.classList.remove('hidden');
-
-                // Check if target is reached in second innings
-                if (gameState.currentInnings === 2) {
-                    const chasingScore = gameState.player1.isBatting ? gameState.player1.score : gameState.player2.score;
-                    if (chasingScore > gameState.target) {
-                        setTimeout(() => {
-                            endGame();
-                        }, 2500);
-                        return;
-                    }
-                }
-
-                setTimeout(() => {
-                    resultDiv.classList.add('hidden');
-                }, 3000);
-            }
-            
-            updateScoreDisplay();
-            updateInningsDisplay();
-            
-            // Reset selection
-            gameState.selectedNumber = null;
-            document.querySelectorAll('.number-btn').forEach(btn => {
-                btn.classList.remove('selected');
-            });
-            document.getElementById('playTurnBtn').disabled = true;
-            
-            // Update declare button visibility
-            updateInningsDisplay();
-        }
-
-        function declareInnings() {
-            const resultDiv = document.getElementById('turnResult');
-            
-            resultDiv.innerHTML = `
-                <div class="info-card" style="background: #fef3c7; border-color: #f59e0b;">
-                    <i class="fas fa-flag icon"></i>
-                    <strong>DECLARED! You ended your innings at ${gameState.player1.score} runs</strong>
-                </div>
-            `;
-            resultDiv.classList.remove('hidden');
-            
-            setTimeout(() => {
-                switchInnings();
-            }, 2500);
-        }
-
-        function switchInnings() {
-            if (gameState.currentInnings === 1) {
-                // Set target and switch to innings 2
-                gameState.target = Math.max(gameState.player1.score, gameState.player2.score);
-                gameState.currentInnings = 2;
-                
-                // Switch roles
-                gameState.player1.isBatting = !gameState.player1.isBatting;
-                gameState.player2.isBatting = !gameState.player2.isBatting;
-                
-                updateInningsDisplay();
-                updateScoreDisplay();
-                
-                // Hide turn result
-                document.getElementById('turnResult').classList.add('hidden');
-            } else {
-                // Game over - both innings completed
-                endGame();
-            }
-        }
-
-        function endGame() {
-            gameState.gameOver = true;
-            
-            let winnerText, winnerBadgeClass;
-            
-            if (gameState.player1.score > gameState.player2.score) {
-                winnerText = 'You Win!';
-                winnerBadgeClass = 'winner-badge';
-            } else if (gameState.player2.score > gameState.player1.score) {
-                winnerText = 'AI Wins!';
-                winnerBadgeClass = 'winner-badge';
-            } else {
-                winnerText = "It's a Tie!";
-                winnerBadgeClass = 'winner-badge';
-            }
-            
-            document.getElementById('winnerText').textContent = winnerText;
-            document.getElementById('finalScoreText').textContent = `You: ${gameState.player1.score} | AI: ${gameState.player2.score}`;
-            
-            showCard('resultCard');
-            document.getElementById('resultCard').classList.add('pulse');
-        }
-
-        function resetGame() {
-            gameState = {
-                phase: 'welcome',
-                player1: { score: 0, role: '', isBatting: false },
-                player2: { score: 0, role: '', isBatting: false },
-                toss: { choice: '', playerNum: null, systemNum: null, winner: null },
-                currentInnings: 1,
-                selectedNumber: null,
-                target: 0,
-                gameOver: false
-            };
-            
-            // Reset form elements
-            document.getElementById('tossNumber').value = '';
-            document.querySelectorAll('.btn-choice').forEach(btn => btn.classList.remove('selected'));
-            document.querySelectorAll('.number-btn').forEach(btn => btn.classList.remove('selected'));
-            document.getElementById('playTurnBtn').disabled = true;
-            document.getElementById('declareBtn').classList.add('hidden');
-            
-            // Hide score card and show welcome
-            document.getElementById('scoreCard').classList.add('hidden');
-            showCard('welcomeCard');
-            updateScoreDisplay();
-        }
-
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
-            updateScoreDisplay();
-        });
-    </script>
 </body>
+
 </html>
